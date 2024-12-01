@@ -1,18 +1,32 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
 .container {
     display: flex;
     flex-wrap: wrap;
-    width: 500px;
-    height: 500px;
+    width: 960px;
+    height: 960px;
     border: 1px solid black;
 }
 
 .cell {
-    width: calc(100% / 16);
+    /* width: calc(100% / 16); */
     border: 1px solid gray;
-    aspect-ratio: 1;
+    /* aspect-ratio: 1; */
     box-sizing: border-box;
+    transition: background-color 0.3s;
 }
 
 .colored {
     background-color: black;
+}
+
+button {
+    max-width: fit-content;
+    padding: 20px;
+    font-size: 32px;
 }
