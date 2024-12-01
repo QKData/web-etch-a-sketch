@@ -20,11 +20,7 @@ button.addEventListener("click", (e) => {
             cell.style.height = `calc(100% / ${n})`;
 
             // Set up hovering effect (random color)
-            cell.addEventListener("mouseover", (e) => {
-                if (!e.target.style.backgroundColor) {
-                    e.target.style.backgroundColor = getRandomColor();
-                };
-            });
+            cell.addEventListener("mouseover", (e) => darkenColor(e.target));
 
             // Add cells to container
             container.appendChild(cell);
@@ -34,9 +30,33 @@ button.addEventListener("click", (e) => {
     };
 });
 
-function getRandomColor() {
+function getRandomRGB() {
     const r = Math.floor(Math.random() * 256);
     const g = Math.floor(Math.random() * 256);
     const b = Math.floor(Math.random() * 256);
-    return `rgb(${r}, ${g}, ${b})`;
+    return [r, g, b];
+}
+
+function darkenColor(element) {
+    let [r, g, b] = [0, 0, 0];
+    let opacity = 0.1;
+
+    if (!element.dataset.passes) {
+        [r, g, b] = getRandomRGB();
+        element.dataset.baseColor = `${r},${g},${b}`;
+        element.dataset.passes = 1;
+    } else {
+        // Get existing color and increase darkness
+        [r, g, b] = element.dataset.baseColor.split(',').map(Number);
+        opacity = Math.min(1, Number(element.dataset.passes) * 0.1);
+        element.dataset.passes = Number(element.dataset.passes) + 1;
+    }
+
+    // Calculate darkened color
+    const darkenAmount = opacity;
+    r = Math.floor(r * (1 - darkenAmount));
+    g = Math.floor(g * (1 - darkenAmount));
+    b = Math.floor(b * (1 - darkenAmount));
+    
+    element.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
 }
